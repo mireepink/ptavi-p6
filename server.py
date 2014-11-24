@@ -16,8 +16,6 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
     """
 
     def handle(self):
-        # Escribe dirección y puerto del cliente (de tupla client_address)
-        #self.wfile.write("Hemos recibido tu peticion")
         lista = ['INVITE', 'ACK', 'BYE']
         while 1:
             line = self.rfile.read()
@@ -25,24 +23,29 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
             print recibido[0]
             if not line:
                 break
-            if entrada[0] == 'INVITE':
+            if recibido[0] == 'INVITE':
                 sentencia = 'SIP/2.0 100 Trying\r\n\r\n'
                 sentencia += 'SIP/2.0 180 Ring\r\n\r\n'
                 sentencia += 'SIP/2.0 200 OK\r\n\r\n'
                 print sentencia
                 self.wfile.write(sentencia)
             elif recibido[0] == 'ACK':
-                aEjecutar = 'mp32rtp -i ' + entrada[1] + ' -p ' + entrada[2] + ' < ' + entrada[3]
+                aEjecutar = './mp32rtp -i 127.0.0.1 -p 23032 < ' + entrada[3]
+                os.system('chmod 755 mp32rtp')
                 os.system(aEjecutar)
+            elif recibido[0] == 'BYE':
+                sentencia = 'SIP/2.0 200 OK\r\n\r\n'
+                print sentencia
+                self.wfile.write(sentencia)
             elif recibido[0] not in lista:
                 print 'SIP/2.0 405 Method Not Allowed\r\n\r\n'
                 self.wfile.write('SIP/2.0 405 Method Not Allowed\r\n\r\n')
             else:
-                print 'SIP/2.0 400 Badrequest\r\n\r\n'
+                print 'SIP/2.0 400 Bad Request\r\n\r\n'
                 self.wfile.write("SIP/2.0 400 bad request\r\n\r\n")
 
 if __name__ == "__main__":
-    
+
     if len(entrada) != 4:
         sys.exit('Usage: python server.py IP port audio_file')
 
