@@ -32,7 +32,6 @@ class SIPHandler(SocketServer.DatagramRequestHandler):
                 print sentencia
                 self.wfile.write(sentencia)
             elif recibido[0] == 'ACK':
-                print ip_client
                 aEjecutar = './mp32rtp -i ' + IP_CLIENT + ' -p 23032 < '
                 aEjecutar += entrada[3]
                 os.system('chmod 755 mp32rtp')
