@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: iso-8859-15 -*-
 """
-Clase (y programa principal) para un servidor de eco en UDP simple
+Clase (y programa principal) para un servidor de SIP
 """
 
 import SocketServer
@@ -10,9 +10,10 @@ import os
 
 entrada = sys.argv
 
-class EchoHandler(SocketServer.DatagramRequestHandler):
+
+class SIPHandler(SocketServer.DatagramRequestHandler):
     """
-    Echo server class
+    SIP server class
     """
 
     def handle(self):
@@ -49,6 +50,6 @@ if __name__ == "__main__":
     if len(entrada) != 4:
         sys.exit('Usage: python server.py IP port audio_file')
 
-    serv = SocketServer.UDPServer(("", int(entrada[2])), EchoHandler)
+    serv = SocketServer.UDPServer((entrada[1], int(entrada[2])), SIPHandler)
     print "Listening..."
     serv.serve_forever()
