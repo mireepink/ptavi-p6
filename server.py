@@ -18,6 +18,7 @@ class SIPHandler(SocketServer.DatagramRequestHandler):
 
     def handle(self):
         lista = ['INVITE', 'ACK', 'BYE']
+        IP_CLIENT = str(self.client_address[0])
         while 1:
             line = self.rfile.read()
             recibido = line.split(' ')
@@ -31,7 +32,9 @@ class SIPHandler(SocketServer.DatagramRequestHandler):
                 print sentencia
                 self.wfile.write(sentencia)
             elif recibido[0] == 'ACK':
-                aEjecutar = './mp32rtp -i 127.0.0.1 -p 23032 < ' + entrada[3]
+                print ip_client
+                aEjecutar = './mp32rtp -i ' + IP_CLIENT + ' -p 23032 < '
+                aEjecutar += entrada[3]
                 os.system('chmod 755 mp32rtp')
                 os.system(aEjecutar)
             elif recibido[0] == 'BYE':
