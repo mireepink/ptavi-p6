@@ -50,4 +50,4 @@ try:
 
 except socket.error:
 
-    print 'Error: No server listening at' + IP_SERVER + 'port' + PUERTO_SERVER
+    print 'Error: No server listening at ' + IP_SERVER + ' port ' + str(PUERTO_SERVER)
