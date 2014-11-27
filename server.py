@@ -27,7 +27,7 @@ class SIPHandler(SocketServer.DatagramRequestHandler):
                 break
             if recibido[0] == 'INVITE':
                 sentencia = 'SIP/2.0 100 Trying\r\n\r\n'
-                sentencia += 'SIP/2.0 180 Ring\r\n\r\n'
+                sentencia += 'SIP/2.0 180 Ringing\r\n\r\n'
                 sentencia += 'SIP/2.0 200 OK\r\n\r\n'
                 print sentencia
                 self.wfile.write(sentencia)
@@ -36,6 +36,7 @@ class SIPHandler(SocketServer.DatagramRequestHandler):
                 aEjecutar += entrada[3]
                 os.system('chmod 755 mp32rtp')
                 os.system(aEjecutar)
+                print "Finalizado envío"
             elif recibido[0] == 'BYE':
                 sentencia = 'SIP/2.0 200 OK\r\n\r\n'
                 print sentencia
