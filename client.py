@@ -33,7 +33,7 @@ try:
 
     print 'Recibido -- ', data
     sentencia = 'SIP/2.0 100 Trying\r\n\r\n'
-    sentencia += 'SIP/2.0 180 Ring\r\n\r\n'
+    sentencia += 'SIP/2.0 180 Ringing\r\n\r\n'
     sentencia += 'SIP/2.0 200 OK\r\n\r\n'
 
     if data == sentencia:
