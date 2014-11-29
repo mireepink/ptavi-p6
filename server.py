@@ -23,6 +23,7 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
     """
 
     def handle(self):
+        IP_CLIENT = str(self.client_address[0])
         while 1:
             # Leyendo línea a línea lo que nos envía el cliente
             line = self.rfile.read()
@@ -39,7 +40,7 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
                 rcv_invite += 'SIP/2.0 200 OK' + '\r\n\r\n'
                 self.wfile.write(rcv_invite)
             elif Metod == 'ACK':
-                aAejecutar = './mp32rtp -i 127.0.0.1 -p 23032 < ' + FICHERO
+                aAejecutar = './mp32rtp -i' + IP_CLIENT + '-p 23032 < ' + FICHERO
                 print 'Vamos a ejecutar', aAejecutar
                 os.system(aAejecutar)
                 print 'Ejecutado', '\r\n\r\n'
@@ -54,6 +55,6 @@ if __name__ == "__main__":
     Lanzando servidor SIP
     """
     Metodos = ['INVITE', 'ACK', 'BYE']
-    serv = SocketServer.UDPServer(("", PUERTO), EchoHandler)
+    serv = SocketServer.UDPServer((IP, PUERTO), EchoHandler)
     print "Listening..."
     serv.serve_forever()
