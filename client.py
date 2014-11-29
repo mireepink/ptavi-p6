@@ -31,12 +31,10 @@ my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 my_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 my_socket.connect((IPreceptor, int(puertoSIP)))
 
-if (METODO == "INVITE"):
+if (METODO == "INVITE") or (METODO == "BYE"):
     print "Enviando: " + MENSAJE
     my_socket.send(MENSAJE + '\r\n')
-if (METODO == "BYE"):
-    print "Enviando: " + MENSAJE
-    my_socket.send(MENSAJE + '\r\n')
+    
 #Compruebo que el puerto está abierto
 try:
     data = my_socket.recv(1024)
