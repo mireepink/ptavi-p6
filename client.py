@@ -44,11 +44,9 @@ except socket.error:
 print 'Recibido:\n' + data
 
 # Si recibimos confirmación de INVITE envíamos ACK
-response1 = "SIP/1.0 100 Trying\r\n\r\n" + "SIP/1.0 180 Ringing\r\n\r\n"\
-          + "SIP/1.0 200 OK\r\n\r\n"
 response2 = "SIP/2.0 100 Trying\r\n\r\n" + "SIP/2.0 180 Ringing\r\n\r\n"\
           + "SIP/2.0 200 OK\r\n\r\n"
-if data == response1 or data == response2:
+if data == response2:
     method = 'ACK'
     request = method + " " + PROTOCOL + ":" + ADDRESS + " " + VERSION\
               + "\r\n\r\n"
